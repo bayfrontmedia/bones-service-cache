@@ -6,6 +6,7 @@ use Bayfront\Bones\Abstracts\Service;
 use Bayfront\Bones\Application\Services\Events\EventService;
 use Bayfront\Bones\Application\Services\Filters\FilterService;
 use Bayfront\BonesService\Cache\Exceptions\CacheDoesNotExistException;
+use Bayfront\BonesService\Cache\Exceptions\CacheServiceException;
 use Bayfront\BonesService\Cache\Exceptions\InvalidCacheKeyException;
 use Bayfront\Cache\Interfaces\CacheItemPoolInterface;
 use DateInterval;
@@ -139,6 +140,25 @@ class CacheService extends Service
         }
 
         return $deleted;
+
+    }
+
+    /**
+     * Delete all items whose key begins with prefix.
+     *
+     * @param string $prefix
+     * @param int $batch_size
+     * @return bool
+     * @throws InvalidCacheKeyException
+     */
+    public function deleteItemsWithPrefix(string $prefix, int $batch_size = 500): bool
+    {
+
+        try {
+            return $this->cacheItemPool->deleteItemsWithPrefix($prefix, $batch_size);
+        } catch (InvalidArgumentException) {
+            throw new InvalidCacheKeyException('Unable to delete cache items with prefix: Invalid prefix: (' . $prefix . ')');
+        }
 
     }
 
