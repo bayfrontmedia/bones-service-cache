@@ -78,3 +78,20 @@ On success, the `cache.deleted` [event](events.md) is emitted.
 **Returns:**
 
 - (bool)
+
+## deleteItemsWithPrefix
+
+Delete all items whose key begins with prefix.
+
+**Parameters:**
+
+- `$prefix` (string)
+- `$batch_size = 500` (int)
+
+**Returns:**
+
+- (bool)
+
+**Throws:**
+
+- `Bayfront\BonesService\Cache\Exceptions\InvalidCacheKeyException`
